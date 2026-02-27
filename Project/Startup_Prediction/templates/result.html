@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prediction Result</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: radial-gradient(circle at top left, #0f2027, #203a43, #2c5364);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            width: 450px;
+            height: 450px;
+            background: rgba(0,255,200,0.15);
+            border-radius: 50%;
+            top: -120px;
+            right: -120px;
+        }
+
+        .result-box {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(15px);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            width: 450px;
+            box-shadow: 0 0 30px rgba(0,255,200,0.4);
+        }
+
+        .outcome {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .progress-container {
+            background: #1e2a38;
+            border-radius: 25px;
+            margin-top: 10px;
+            height: 25px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            border-radius: 25px;
+            text-align: center;
+            line-height: 25px;
+            color: black;
+            font-weight: bold;
+            transition: width 1.5s ease-in-out;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 20px;
+            background: linear-gradient(90deg, #00ffd5, #00aaff);
+            color: black;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        a:hover {
+            box-shadow: 0 0 15px #00ffd5;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="result-box">
+
+    <h2>🎯 Prediction Result</h2>
+
+    <div class="outcome" id="outcomeText">
+        {{ outcome }}
+    </div>
+
+    <div style="margin-top:15px;">Confidence Level</div>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar">
+            {{ probability }}%
+        </div>
+    </div>
+
+    <div style="margin-top:15px;">
+        Risk Level: <b>{{ risk }}</b>
+    </div>
+
+    <a href="/">Try Another Prediction</a>
+
+</div>
+
+<script>
+window.onload = function() {
+
+    var confidence = {{ probability }};
+    var outcome = "{{ outcome }}";
+
+    var progressBar = document.getElementById("progressBar");
+    var outcomeText = document.getElementById("outcomeText");
+
+    progressBar.style.width = confidence + "%";
+
+    if (outcome.includes("Closed")) {
+        progressBar.style.background = "linear-gradient(90deg, #ff4d4d, #ff0000)";
+        outcomeText.style.color = "#ff4d4d";
+    }
+    else if (outcome.includes("Operating")) {
+        progressBar.style.background = "linear-gradient(90deg, #00ff95, #00cc66)";
+        outcomeText.style.color = "#00ff95";
+    }
+    else {
+        progressBar.style.background = "linear-gradient(90deg, #00ffd5, #00aaff)";
+        outcomeText.style.color = "#00ffd5";
+    }
+}
+</script>
+
+</body>
+</html>

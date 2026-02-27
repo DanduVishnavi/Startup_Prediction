@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Startup Success Predictor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: radial-gradient(circle at top left, #0f2027, #203a43, #2c5364);
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Floating glow circles */
+        body::before {
+            content: "";
+            position: fixed;
+            width: 450px;
+            height: 450px;
+            background: rgba(0,255,200,0.15);
+            border-radius: 50%;
+            top: -120px;
+            right: -120px;
+            animation: float 6s ease-in-out infinite alternate;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            width: 350px;
+            height: 350px;
+            background: rgba(0,150,255,0.15);
+            border-radius: 50%;
+            bottom: -120px;
+            left: -120px;
+            animation: float 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes float {
+            from { transform: translateY(0px); }
+            to { transform: translateY(25px); }
+        }
+
+        .main {
+            display: flex;
+            justify-content: space-between;
+            padding: 50px;
+            gap: 40px;
+        }
+
+        /* FORM SECTION */
+        .form-box {
+            flex: 1;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(15px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(0,255,200,0.4);
+        }
+
+        .form-box h1 {
+            margin-bottom: 25px;
+            color: #00ffd5;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: none;
+            background: #1e2a38;
+            color: white;
+            font-size: 14px;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            box-shadow: 0 0 8px #00ffd5;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            border: none;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            background: linear-gradient(90deg, #00ffd5, #00aaff);
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px #00ffd5;
+        }
+
+        /* INFO SECTION */
+        .info-section {
+            flex: 1.2;
+        }
+
+        .info-section h2 {
+            color: #00ffd5;
+            margin-bottom: 15px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.07);
+            padding: 18px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            border-left: 5px solid #00ffd5;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateX(8px);
+            background: rgba(255,255,255,0.12);
+        }
+
+        .card h4 {
+            margin: 0 0 6px 0;
+        }
+
+        .card p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* LOADING OVERLAY */
+        #loadingOverlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 6px solid #1e2a38;
+            border-top: 6px solid #00ffd5;
+            border-radius: 50%;
+            animation: spin 5s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media(max-width: 900px) {
+            .main {
+                flex-direction: column;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="main">
+
+    <!-- LEFT SIDE FORM -->
+    <div class="form-box">
+        <h1>🚀 AI Startup Predictor</h1>
+
+        <form id="predictionForm" action="/predict" method="POST">
+
+            <input type="number" name="funding_total_usd" placeholder="Total Funding (USD)" required>
+            <input type="number" name="funding_rounds" placeholder="Funding Rounds" required>
+            <input type="number" name="relationships" placeholder="Business Relationships" required>
+            <input type="number" name="milestones" placeholder="Milestones Achieved" required>
+            <input type="number" name="avg_participants" placeholder="Average Investors" required>
+
+            <label>Top 500 Company?</label>
+            <select name="is_top500">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+
+            <label>Has Venture Capital?</label>
+            <select name="has_VC">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select>
+
+            <input type="number" name="age_first_funding_year" placeholder="Age at First Funding" required>
+
+            <button type="submit">Predict Startup Success</button>
+
+        </form>
+    </div>
+
+    <!-- RIGHT SIDE INFO -->
+    <div class="info-section">
+
+        <h2>🤖 About the Model</h2>
+
+        <div class="card" style="border-left:5px solid #00aaff;">
+            <h4>Machine Learning Based Prediction</h4>
+            <p>
+                This AI system analyzes startup financial strength, investor confidence,
+                business growth indicators, and market recognition to predict whether
+                a startup will operate successfully, fail, or get acquired.
+            </p>
+        </div>
+
+        <h2>📊 Why These Parameters Matter</h2>
+
+        <div class="card">
+            <h4>💰 Total Funding</h4>
+            <p>Higher funding increases survival and expansion potential.</p>
+        </div>
+
+        <div class="card">
+            <h4>🔄 Funding Rounds</h4>
+            <p>More rounds indicate strong investor confidence.</p>
+        </div>
+
+        <div class="card">
+            <h4>🤝 Business Relationships</h4>
+            <p>Strategic partnerships improve market stability.</p>
+        </div>
+
+        <div class="card">
+            <h4>🏆 Milestones</h4>
+            <p>Achievements reflect startup progress and maturity.</p>
+        </div>
+
+        <div class="card">
+            <h4>💼 Venture Capital</h4>
+            <p>VC backing provides financial and strategic support.</p>
+        </div>
+
+        <div class="card">
+            <h4>⭐ Top 500 Status</h4>
+            <p>Recognition boosts credibility and trust.</p>
+        </div>
+
+        <div class="card">
+            <h4>📅 Age at First Funding</h4>
+            <p>Early funding signals strong initial traction.</p>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- LOADING SCREEN -->
+<div id="loadingOverlay">
+    <div style="text-align:center;">
+        <div class="spinner"></div>
+        <p style="margin-top:15px; color:#00ffd5;">
+            Analyzing Startup Data...
+        </p>
+    </div>
+</div>
+
+<script>
+document.getElementById("predictionForm").addEventListener("submit", function() {
+    document.getElementById("loadingOverlay").style.display = "flex";
+});
+</script>
+
+</body>
+</html>
