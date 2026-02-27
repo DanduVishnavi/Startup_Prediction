@@ -85,7 +85,6 @@ Startup_Prediction/
 │
 ├── model.pkl
 ├── app.py
-├── requirements.txt
 └── README.md
 
 ````
@@ -106,12 +105,6 @@ cd startup-success-predictor
 ```bash
 python -m venv venv
 venv\Scripts\activate   # Windows
-```
-
-### 3️⃣ Install Dependencies
-
-```bash
-pip install -r requirements.txt
 ```
 
 ### 4️⃣ Run Application
@@ -160,11 +153,3 @@ This project demonstrates:
 * REST API version
 
 ---
-
-## 👩‍💻 Developed By
-
-**Vishnavi (Final Year Computer Science Student)**
-AI & Machine Learning Enthusiast
-
----
-
